@@ -1638,19 +1638,19 @@ mysqli_query(
 
 mysqli_query(
     $db_link,
-    'ALTER TABLE `' . $pre . '_sharekeys_items add index (object_id) ;'
+    'ALTER TABLE `' . $pre . '`sharekeys_items add index (object_id) ;'
 );
 mysqli_query(
     $db_link,
-    'ALTER TABLE `' . $pre . '_sharekeys_items add index (user_id) ;'
+    'ALTER TABLE `' . $pre . '`sharekeys_items add index (user_id) ;'
 );
 mysqli_query(
     $db_link,
-    'ALTER TABLE `' . $pre . '_sharekeys_logs add index (object_id) ;'
+    'ALTER TABLE `' . $pre . '`sharekeys_logs add index (object_id) ;'
 );
 mysqli_query(
     $db_link,
-    'ALTER TABLE `' . $pre . '_sharekeys_logs add index (user_id) ;'
+    'ALTER TABLE `' . $pre . '`sharekeys_logs add index (user_id) ;'
 );
 
 //---<END 3.0.0.22
