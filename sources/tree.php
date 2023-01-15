@@ -284,23 +284,22 @@ function getNodeInfos(
 {
     $ret = [];
     // get count of Items in this folder
-    DB::query(
-        'SELECT *
+    $ret['itemsNb'] = (int) DB::queryfirstrow(
+        'SELECT COUNT(*) AS num_results
         FROM ' . prefixTable('items') . '
         WHERE inactif=%i AND id_tree = %i',
         0,
         $nodeId
-    );
-    $ret['itemsNb'] = DB::count();
+    )['num_results'];
 
     // get info about current folder
-    DB::query(
-        'SELECT *
+    $ret['childrenNb'] = (int) DB::queryfirstrow(
+        'SELECT COUNT(*) AS num_results
         FROM ' . prefixTable('nested_tree') . '
         WHERE parent_id = %i',
         $nodeId
-    );
-    $ret['childrenNb'] = DB::count();
+    )['num_results'];
+
 
     // Manage node title
     if ($userIsRO === true && in_array($nodeId, $userPF) === false) {
@@ -376,13 +375,12 @@ function recursiveTree(
                 )
             ) === true
         ) {
-            DB::query(
-                'SELECT * FROM ' . prefixTable('items') . '
+            $nbChildrenItems = (int) DB::queryfirstrow(
+                'SELECT COUNT(*) AS num_results FROM ' . prefixTable('items') . '
                 WHERE inactif=%i AND id_tree = %i',
                 0,
                 $node
-            );
-            $nbChildrenItems += DB::count();
+            )['num_results'];
         }
 
         if (
@@ -463,13 +461,13 @@ function handleNode(
 )
 {
     // get info about current folder
-    DB::query(
-        'SELECT * FROM ' . prefixTable('items') . '
+    $itemsNb = (int) DB::queryfirstrow(
+        'SELECT COUNT(*) AS num_results FROM ' . prefixTable('items') . '
         WHERE inactif=%i AND id_tree = %i',
         0,
         $nodeId
-    );
-    $itemsNb = DB::count();
+    )['num_results'];
+
 
     // If personal Folder, convert id into user name
     if ((int) $currentNode->title === (int) $inputData['userId'] && (int) $currentNode->nlevel === 1) {
